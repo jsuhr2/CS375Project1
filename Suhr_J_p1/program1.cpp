@@ -41,6 +41,7 @@ int main(int argc, char** argv){
 	vector<Card> max;
 	vector<Card> possibleBuy;
 	int possibleBuyProfit = 0;
+	int foundInMarketFlag = 0;
 	vector<Card> cardsSold;
 
 	if(argc != 5){
@@ -80,14 +81,15 @@ int main(int argc, char** argv){
 			for(auto i = cardsSold.begin(); i != cardsSold.end(); i++){
 				if(!nameSell.compare((*i).name)){
 					(*i).marketprice = priceSell;
+					foundInMarketFlag = 1;
 				}
 //				cout << (*i).name << " " << (*i).marketprice << endl;
 			}
-		}
-
-		if(numSellCards < numBuyCards){
-			cerr << "Gertrude is selling cards that don't exist on the market" << endl;
-			return 0;
+			if(foundInMarketFlag == 0){
+				cerr << "Gertrude is selling cards that do not exist on the market." << endl;
+				return 0;
+			}
+			foundInMarketFlag = 0;
 		}
 		
 		for(int i = 0; i < pow(2, numBuyCards); i++){
