@@ -10,7 +10,7 @@ $(P): $(P).o
 	g++ $(CFLAGS) $(P).o -o $(P)
 
 run: all
-	./$(P)
+	./$(P) -m market-price-test.txt -p price-list-test.txt
 
 checkmem: all
 	valgrind ./$(P)
