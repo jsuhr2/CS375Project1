@@ -6,12 +6,30 @@
 #include <cstdlib>
 #include <vector>
 #include <cmath>
+#include <ctime>
+#include <chrono>
+#include <thread>
 
 #include "Card.h"
 
 using namespace std;
 
+void printToOutputFile(int sizeOfInput, int maxProf, int numCards, double elapsed_secs, vector<Card> cardV){
+
+	ofstream output;
+	output.open("output.txt", ios_base::app);
+	output << sizeOfInput << " " << maxProf << " " << numCards << " " << elapsed_secs << endl;
+	for(auto i = cardV.begin(); i !=cardV.end(); i++){
+		output << (*i).name << endl;
+	}
+	output << endl;
+}
+
 int main(int argc, char** argv){
+	
+	ofstream clear;
+	clear.open("output.txt", ofstream::out | ofstream::trunc);
+	clear.close();
 
 	int budget = 0;
 	int numBuyCards = 0;
@@ -39,6 +57,7 @@ int main(int argc, char** argv){
 	}
 
 	while(!pricelistfile.eof()){
+		clock_t begin = clock();
 		ifstream marketpricefile(argv[2], ios::in);
 		if(!marketpricefile){
 			cerr << "Cannot open market price file for input" << endl;
@@ -93,10 +112,18 @@ int main(int argc, char** argv){
 			possibleCost = 0;
 			possibleBuy.clear();
 		}
-
+/*
 		for(auto i = max.begin(); i != max.end(); i++){
 			cout << (*i).name << " " << maxProfit << endl;
 		}
+*/		
+		chrono::seconds dura(10);
+		this_thread::sleep_for(dura);
+
+		clock_t end = clock();
+		double elapsed = double(end - begin);
+		printToOutputFile(numBuyCards, maxProfit, max.size(), elapsed, max);
+		
 		max.clear();
 		maxProfit = 0;
 		cardsSold.clear();
