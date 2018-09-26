@@ -7,8 +7,6 @@
 #include <vector>
 #include <cmath>
 #include <ctime>
-#include <chrono>
-#include <thread>
 
 #include "Card.h"
 
@@ -117,11 +115,9 @@ int main(int argc, char** argv){
 			cout << (*i).name << " " << maxProfit << endl;
 		}
 */		
-		chrono::seconds dura(10);
-		this_thread::sleep_for(dura);
-
+		
 		clock_t end = clock();
-		double elapsed = double(end - begin);
+		double elapsed = double(end - begin) / CLOCKS_PER_SEC;
 		printToOutputFile(numBuyCards, maxProfit, max.size(), elapsed, max);
 		
 		max.clear();
